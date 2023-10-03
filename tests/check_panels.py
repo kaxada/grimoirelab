@@ -87,7 +87,7 @@ def check_panel(panel, config):
         logging.error("%s does not exists", panel)
         return
 
-    print("Checking %s" % panel)
+    print(f"Checking {panel}")
     try:
         results = cmp_panel_mapping(es_host=config.get_conf()['es_enrichment']['url'], panel_path=panel)
         print("RESULT: ", results[list(results.keys())[0]]['status'])

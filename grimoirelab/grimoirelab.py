@@ -46,9 +46,13 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description=description)
 
-    parser.add_argument('-v', '--version', action='version',
-                        version="GrimoireLab " + grimoirelab.__version__,
-                        help="Version of GrimoireLab installed")
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version=f"GrimoireLab {grimoirelab.__version__}",
+        help="Version of GrimoireLab installed",
+    )
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)

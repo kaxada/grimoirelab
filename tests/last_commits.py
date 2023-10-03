@@ -42,14 +42,13 @@ def get_params():
     return parser.parse_args()
 
 def send_github(url, headers=None):
-    headers = {'Authorization': 'token ' + args.token }
+    headers = {'Authorization': f'token {args.token}'}
     res = requests.get(url, headers=headers)
     res.raise_for_status()
     return res
 
 def get_repositories():
-    repos = []
-    repos_url = GITHUB_ORGS_API + "/repos"
+    repos_url = f"{GITHUB_ORGS_API}/repos"
     res = send_github(repos_url)
     res.raise_for_status()
 
@@ -59,10 +58,7 @@ def get_repositories():
         print("Max repositories reached: %i. Exiting." % MAX_REPOS)
         sys.exit(1)
 
-    for repo in repos_dict:
-        repos.append(repo['name'])
-
-    return repos
+    return [repo['name'] for repo in repos_dict]
 
 if __name__ == '__main__':
 
@@ -70,8 +66,8 @@ if __name__ == '__main__':
 
     for repo in get_repositories():
         # Return the last commit from master branch
-        commits_url = GITHUB_REPOS_API + "/" + repo + "/commits/master"
+        commits_url = f"{GITHUB_REPOS_API}/{repo}/commits/master"
         res = send_github(commits_url)
         commit = res.json()['sha']
         repo_name = repo.upper().replace("-", "_").replace(".", "_")
-        print(repo_name + "='" + commit + "'")
+        print(f"{repo_name}='{commit}'")
